@@ -1,8 +1,12 @@
-<?xml version="1.0"?>
-<ruleset name="customruleset"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
-  <description>
-  This ruleset checks my code for bad stuff
-  </description>
-</ruleset>
+------------------------------------------------------------------------
+This is the project README file. Here, you should describe your project.
+Tell the reader (someone who does not know anything about this project)
+all he/she needs to know. The comments should usually include at least:
+------------------------------------------------------------------------
+
+PROJECT TITLE:
+PURPOSE OF PROJECT:
+VERSION or DATE:
+HOW TO START THIS PROJECT:
+AUTHORS:
+USER INSTRUCTIONS:

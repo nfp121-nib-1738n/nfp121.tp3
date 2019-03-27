@@ -1,107 +1,102 @@
 package question2;
 
-import question1.PilePleineException;
+import java.util.Stack; 
+
+import question1.PilePleineException; 
 import question1.PileVideException;
 
-import java.util.Stack;
-
-public class Pile2 implements PileI {
-    /** par delegation : utilisation de la class Stack */
-    private Stack<Object> stk;
-
-    /** la capacite de la pile */
-    private int capacite;
-
-    /**
-     * Creation d'une pile.
-     * 
-     * @param taille
-     *            la taille de la pile, la taille doit etre > 0
-     */
-    public Pile2(int taille) {
-        // prevoir le cas <=0
-        // a completer
+public class Pile2 implements PileI { 
+    
+  public final static int TAILLE_PAR_DEFAUT = 5; 
+  
+  private Stack<Object> stk; // La classe Pile2 est implémentée par délégation 
+  private int taille;
+  private int capacite;
+  private int ID;
+  public static int nextID = 1;
+  
+  public Pile2() {
+      this.taille = TAILLE_PAR_DEFAUT;
+      this.ID = this.nextID++;
+      this.capacite = 0;
+      this.stk = new Stack<>();
+  }
+  
+  public Pile2(int taille) {
+      if (taille < 0) this.taille = TAILLE_PAR_DEFAUT;
+      else this.taille = taille;
+      
+      this.ID = this.nextID++;
+      this.capacite = 0;
+      this.stk = new Stack<>();
+  }
+    
+  @Override
+  public void empiler(Object i) throws PilePleineException { 
+    if (estPleine()) throw new PilePleineException(); 
+    else {
+        stk.push(i);
+        this.capacite++;
     }
+  } 
 
-    // constructeur fourni
-    public Pile2() {
-        this(0);
-    }
+  @Override
+  public Object depiler() throws PileVideException { 
+    if (estVide()) throw new PileVideException();
+    this.capacite--;
+    return stk.pop(); 
+  } 
+  
+  @Override
+  public boolean estVide() { 
+    return this.stk.empty(); //Ou bien: return this.capacite == 0; 
+  } 
 
-    public void empiler(Object o) throws PilePleineException {
-        // a completer
-    }
+  @Override
+  public boolean estPleine() { 
+    return this.capacite == this.taille; 
+  } 
 
-    public Object depiler() throws PileVideException {
-        // a completer
-        return null;
-    }
+  @Override 
+  public String toString() { 
+    Stack<Object> temp = new Stack<>();
+    StringBuffer sb = new StringBuffer("["); 
+    int count = 0;
+    while (!this.estVide()) { 
+      if (count > 0) sb.append(", "); 
+      Object obj = this.stk.pop();
+      temp.push(obj);
+      sb.append(obj.toString()); 
+    } 
+    sb.append("]"); 
+    this.stk = temp;
+    return sb.toString(); 
+  } 
+  
+  @Override
+  public Object sommet() throws PileVideException {
+      return this.stk.peek();
+  }
+  
+  @Override
+  public int capacite() {
+      return this.capacite;
+  }
+  
+  @Override
+  public int taille() {
+      return this.taille;
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+      if(this.toString().equals(((Pile2)o).toString())) return true;
+      return false;
+  }
+  
+  @Override
+  public int hashCode() {
+      return this.ID;
+  }
 
-    public Object sommet() throws PileVideException {
-        // a completer
-        return null;
-    }
-
-    /**
-     * Effectue un test de l'etat de la pile.
-     * 
-     * @return vrai si la pile est vide, faux autrement
-     */
-    public boolean estVide() {
-        // a completer
-        return false;
-    }
-
-    /**
-     * Effectue un test de l'etat de la pile.
-     * 
-     * @return vrai si la pile est pleine, faux autrement
-     */
-    public boolean estPleine() {
-        // a completer
-        return false;
-    }
-
-    /**
-     * Retourne une representation en String d'une pile, contenant la
-     * representation en String de chaque element.
-     * 
-     * @return une representation en String d'une pile
-     */
-    public String toString() {
-        String s = "[";
-        // a completer
-        return s + "]";
-    }
-
-    public boolean equals(Object o) {
-        // a completer
-        return false;
-    }
-
-    // fonction fournie
-    public int hashCode() {
-        return toString().hashCode();
-    }
-
-    /**
-     * Retourne le nombre d'element d'une pile.
-     * 
-     * @return le nombre d'element
-     */
-    public int taille() {
-        // a completer
-        return 0;
-    }
-
-    /**
-     * Retourne la capacite de cette pile.
-     * 
-     * @return le nombre d'element
-     */
-    public int capacite() {
-        // a completer
-        return 0;
-    }
-
-} // Pile2.java
+}

@@ -1,65 +1,94 @@
 package question1;
 
-import question1.PilePleineException;
-import question1.PileVideException;
+import question2.PileI;
 
-/**
- * A remplacer par votre classe Pile .
- * 
- * @author (votre nom)
- * @version (un numéro de version ou une date)
- */
-public class Pile {
-    public final static int TAILLE_PAR_DEFAUT = 5;
+public class Pile implements PileI{ 
 
-    private int[] zone;
-    private int ptr;
+  public final static int TAILLE_PAR_DEFAUT = 5; 
 
-    /**
-     * à compléter
-     * 
-     */
-    public Pile(int taille) {
-        if (taille < 0)
-            taille = TAILLE_PAR_DEFAUT;
-        this.zone = new int[taille];
-        this.ptr = 0;
-    }
+  private Object[] zone; 
+  private int ptr; 
+  private int taille;
+  private int ID;
+  public static int nextID = 1;
 
-    public Pile() {
-        this(TAILLE_PAR_DEFAUT);
-    }
+  public Pile(int taille) { 
+    if (taille < 0) this.taille = TAILLE_PAR_DEFAUT;
+    else this.taille = taille;
+    
+    this.ID = this.nextID++;
+    this.zone = new Object[this.taille]; 
+    this.ptr = 0; 
+  } 
 
-    public void empiler(int i) throws PilePleineException {
-        if (estPleine())
-            throw new PilePleineException();
-        this.zone[this.ptr] = i;
-        this.ptr++;
-    }
+  public Pile() { 
+    this(TAILLE_PAR_DEFAUT); 
+  } 
 
-    public int depiler() throws PileVideException {
-        if (estVide())
-            throw new PileVideException();
-        this.ptr--;
-        return zone[ptr];
-    }
+  @Override
+  public void empiler(Object i) throws PilePleineException { 
+    if (estPleine()) 
+      throw new PilePleineException(); 
+    this.zone[this.ptr] = i; 
+    this.ptr++; 
+  } 
 
-    public boolean estVide() {
-        return ptr == 0;
-    }
+  @Override
+  public Object depiler() throws PileVideException { 
+    if (estVide()) 
+      throw new PileVideException(); 
+    this.ptr--; 
+    return zone[ptr].toString(); 
+  } 
 
-    public boolean estPleine() {
-        return ptr == zone.length;
-    }
+  @Override
+  public boolean estVide() { 
+    return ptr == 0; 
+  } 
 
-    public String toString() {
-        StringBuffer sb = new StringBuffer("[");
-        for (int i = ptr - 1; i >= 0; i--) {
-            sb.append(Integer.toString(zone[i]));
-            if (i > 0)
-                sb.append(", ");
-        }
-        sb.append("]");
-        return sb.toString();
-    }
+  @Override
+  public boolean estPleine() { 
+    return ptr == zone.length; 
+  } 
+
+  @Override 
+  public String toString() { 
+    StringBuffer sb = new StringBuffer("["); 
+    for (int i = ptr - 1; i >= 0; i--) { 
+      sb.append(zone[i].toString()); 
+      if (i > 0) 
+        sb.append(", "); 
+    } 
+    sb.append("]"); 
+    return sb.toString(); 
+  } 
+  
+  @Override
+  public Object sommet() throws PileVideException {
+      if(this.estVide()) return null;
+      return zone[ptr-1];
+  }
+  
+  @Override
+  public int capacite() {
+      if(this.estVide()) return 0;
+      return ptr-1;
+  }
+  
+  @Override
+  public int taille() {
+      return this.taille;
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+      if(this.toString().equals(((Pile)o).toString())) return true;
+      return false;
+  }
+  
+  @Override
+  public int hashCode() {
+      return this.ID;
+  }
+  
 }
